@@ -2,18 +2,35 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello, World! • A-Frame</title>
-    <meta name="description" content="Hello, World! • A-Frame">
-    <script src="https://aframe.io/releases/latest/aframe.min.js"></script>
+    
+    <title>VR Sudoku Project - Vasanth Moorthiamma Mohan 20211412</title>
+
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+    
+    <script src="components/one-to-nine.js"></script>
+    <script src="components/spawn-number.js"></script>
   </head>
+
   <body>
     <a-scene>
-      <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cube position="-1 0.5 1" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-cube>
-      <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        <a-assets>
+          <img id="floorAsset" src="components/sudoku.jpeg">
+          <img id="skyAsset" src="components/sky.jpg">
+          <a-mixin id="number"
+            geometry="primitive: box; height: 1; width: 1; depth: 1"
+            material="shader: standard"
+            one-to-nine></a-mixin>
+        </a-assets>
 
-      <a-sky color="#ECECEC"></a-sky>
+        <a-entity id="teleHand" hand-controls="hand: left" teleport-controls="type: parabolic; collisionEntities: [mixin='number'], #floor"></a-entity>
+        <a-entity id="blockHand" hand-controls="hand: right" laser-controls spawn-number></a-entity>
+        <a-camera look-controls position="0 10 0">
+          <a-cursor spawn-number></a-cursor>
+        </a-camera>
+
+        <a-sky id="sky" src="#skyAsset" theta-length="360" radius="30"></a-sky>
+        <a-plane src="#floorAsset" rotation="-90 0 0" width="9" height="9"></a-plane>
     </a-scene>
   </body>
 </html>
